@@ -4,25 +4,65 @@
     <head>
         <title>Tic Tac Toe</title>
         <link rel="stylesheet" href="style.css"/>
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet"> 
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+        <script src="https://kit.fontawesome.com/fa7637847c.js" crossorigin="anonymous"></script>
     </head>
     <body>
         <div class="container">
+            <div class="gameText">XOXOXOXO</div>
             <div class="gameboard">
-                <div class="square" data-num="1"></div>
-                <div class="square" data-num="2"></div>
-                <div class="square" data-num="3"></div>
-                <div class="square" data-num="4"></div>
-                <div class="square" data-num="5"></div>
-                <div class="square" data-num="6"></div>
-                <div class="square" data-num="7"></div>
-                <div class="square" data-num="8"></div>
-                <div class="square" data-num="9"></div>
+                <div class="square free" data-num="0">T</div>
+                <div class="square free" data-num="1">I</div>
+                <div class="square free" data-num="2">C</div>
+                <div class="square free" data-num="3">T</div>
+                <div class="square free" data-num="4">A</div>
+                <div class="square free" data-num="5">C</div>
+                <div class="square free" data-num="6">T</div>
+                <div class="square free" data-num="7">O</div>
+                <div class="square free" data-num="8">E</div>
+            </div>
+            <button class="play">Play</button>
+        </div>
+
+
+        <!-- Modal Settings-->
+        <div class="modal-settings closed" tabindex="-1">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Game Settings</h2>
+                    <div class="close-modal"><button id="closeModalX"><i class="far fa-window-close"></i></button></div>
+                </div>
+                <form name="settingsForm">
+                    <ul class="modal-wrapper">
+                        <li>
+                            <label for="p1-name">Name</label>
+                            <input type="text" name="p1Name" id="p1-name" value="Player 1" maxlength="15">
+                        </li>
+                        <li>
+                            <label for="p2-name">Name</label>
+                            <input type="text" name="p2Name" id="p2-name" value="Player 2" maxlength="15">
+                        </li>
+                        <li>
+                            <label for="play-AI">AI to play?</label>
+                            <input type="checkbox" name="playAI" id="play-AI">
+                        </li>
+                        <li>
+                            <button type="submit" class="saveButton">Submit</button>
+                            <button type="button" id="closeButton">Close</button>
+                        </li>
+                    </ul>
+                </form>
             </div>
         </div>
+
+        <div class="modal-overlay closed" id="modal-overlay">
+        </div>
+        
+        
         <script src="modules/gameBoard.js"></script>
-        <script src="modules/game.js"></script>
         <script src="modules/player.js"></script>
+        <script src="modules/game.js"></script>
+        <script src="main.js"></script>
 
     </body>
 </html>
