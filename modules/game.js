@@ -12,11 +12,12 @@ const game = (() => {
     let player2;
 
     function startGame(p1Name, p2Name, playAI) {
+        console.log(playAI);
         playButton.classList.add('restart');
         playButton.textContent = 'Restart';
 
-        player1 = Player(p1Name, 'O');
-        player2 = Player(p2Name, 'X');
+        player1 = Player(p1Name, 'O', false);
+        player2 = Player(p2Name, 'X', playAI);
 
         player1.setMyTurn(true);
 
@@ -24,7 +25,7 @@ const game = (() => {
         gameBoard.reset();
     }
 
-    function processMove() {
+    function processPlayerMove() {
         if(gameBoard.isValidMove(this)) {
 
             let playerInControl = player1.isMyTurn() ? player1 : player2;
@@ -32,28 +33,57 @@ const game = (() => {
 
             gameBoard.updateBoard(this, playerInControl.getCounter());
 
-            playerInControl.setMyTurn(false);
-            nextPlayer.setMyTurn(true);
+            if(!player2.isAI) {
+                playerInControl.setMyTurn(false);
+                nextPlayer.setMyTurn(true);
+            }
 
-            let winner = gameOver();
-            if(winner) {
-                if (winner === player1.getCounter()) {
-                    gameText.textContent = `${player1.getName()} WINS!`;
-                }
-                else if (winner === player2.getCounter()) {
-                    gameText.textContent = `${player2.getName()} WINS!`;
-                }
-                else {
-                    gameText.textContent = 'IT\'S A DRAW!';
-                }
-                stopPlayerInput();
-            } else {
+            if(!gameOver()) {
                 gameText.textContent = `${nextPlayer.getName()} - Choose your move`;
+
+                if(player2.isAI()) {
+                    processAIMove();
+                }
             }
         }
     }
 
+    function processAIMove() {
+        gameText.textContent = `${player2.getName()} - Thinking...`;
+        setTimeout(() => {
+            const square = player2.getMove();
+            if(square) {
+                gameBoard.updateBoard(square, player2.getCounter());
+
+                player2.setMyTurn(false);
+
+                if(!gameOver()) {
+                    gameText.textContent = `${player1.getName()} - Choose your move`;
+                }
+            }
+            
+        }, 1000);
+    }
+
     function gameOver() {
+        let winner = getWinner();
+        if(winner) {
+            if (winner === player1.getCounter()) {
+                gameText.textContent = `${player1.getName()} WINS!`;
+            }
+            else if (winner === player2.getCounter()) {
+                gameText.textContent = `${player2.getName()} WINS!`;
+            }
+            else {
+                gameText.textContent = 'IT\'S A DRAW!';
+            }
+            stopPlayerInput();
+            return true;
+         }
+         return false;
+    }
+
+    function getWinner() {
         const board = gameBoard.getBoardState();
         if(board[0].state) {
             if(board[0].state === board[1].state && board[0].state === board[2].state) { // top horizontal win
@@ -119,7 +149,7 @@ const game = (() => {
     document.settingsForm.addEventListener('submit', function(e) {
         e.preventDefault();
         closeSettingsModal();
-        startGame(this.p1Name.value, this.p2Name.value, this.playAI.value);
+        startGame(this.p1Name.value, this.p2Name.value, this.playAI.checked);
     
     });
 
@@ -137,7 +167,7 @@ const game = (() => {
     closeModalX.addEventListener('click', closeSettingsModal);
     modalOverlay.addEventListener('click', closeSettingsModal);
     playButton.addEventListener('click', showSettingsModal);
-    squares.forEach(square => square.addEventListener('click', processMove));
+    squares.forEach(square => square.addEventListener('click', processPlayerMove));
 
     
     return {
