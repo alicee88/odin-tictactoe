@@ -125,6 +125,14 @@ html {
     color: #00a3b8;
 }
 
+.modal-wrapper li.input-hidden {
+  display: none;
+}
+
+.modal-wrapper .ai-level > label + * {
+  margin-right: 20px;
+}
+
 .close-modal button {
   background: #00a3b8;
   color: #E8E8E8;

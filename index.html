@@ -35,17 +35,28 @@
                 <form name="settingsForm">
                     <ul class="modal-wrapper">
                         <li>
-                            <label for="p1-name">Name</label>
+                            <label for="p1-name">Player 1</label>
                             <input type="text" name="p1Name" id="p1-name" value="Player 1" maxlength="15">
                         </li>
                         <li>
-                            <label for="p2-name">Name</label>
+                            <label for="p2-name">Player 2</label>
                             <input type="text" name="p2Name" id="p2-name" value="Player 2" maxlength="15">
                         </li>
                         <li>
                             <label for="play-AI">AI to play?</label>
                             <input type="checkbox" name="playAI" id="play-AI">
                         </li>
+                        <li class="input-hidden">
+                                <div class="ai-level">
+                                    <label for="level-1">Terrible</label>
+                                    <input type="radio" name="level" id="level-1" value="Terrible">
+                                    <label for="level-2">Decent</label>
+                                    <input type="radio" name="level" id="level-2" value="Decent" checked>
+                                    <label for="level-3">Unbeatable</label>
+                                    <input type="radio" name="level" id="level-3" value="Unbeatable">
+                                </div>
+                        </li>
+
                         <li>
                             <button type="submit" class="saveButton">Submit</button>
                             <button type="button" id="closeButton">Close</button>
